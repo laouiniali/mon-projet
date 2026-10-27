@@ -136,4 +136,4 @@ Ce projet est à usage éducatif dans le cadre de la formation ESPRIT.
 
 ---
 
-**Développé avec ❤️ par Ali Laouini - ESPRIT 2024**
+**Développé avec ❤️ par Ali Laouini - ESPRIT 2026**
