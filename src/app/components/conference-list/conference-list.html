@@ -1,0 +1,117 @@
+<section class="card list-card" id="conference-list">
+  <div class="section-title">
+    <div class="icon">📅</div>
+    <div>
+      <h2>Liste des conférences à venir</h2>
+      <p>Cliquez sur une conférence pour afficher ses détails.</p>
+    </div>
+  </div>
+  
+  <!-- Bouton pour ajouter une nouvelle conférence -->
+  <button [routerLink]="['/conference/add']" type="button" class="inscription-btn" style="margin: 10px;">
+    ➕ Ajouter une conférence
+  </button>
+
+  <div class="conference-grid">
+    @for (conference of conferences(); track conference.id) {
+      @if (conference.date >= today) {
+      
+        <!-- Mode Normal (Affichage) -->
+        @if (!estEnEdition(conference.id)) {
+          <article
+            class="conference-item"
+            (click)="choisirConference(conference)"
+          >
+            <!-- Pipe uppercase -->
+            <h3>{{ conference.title | uppercase }}</h3>
+
+            <p>{{ conference.description }}</p>
+
+            <!-- Pipe date -->
+            <p><strong>Date :</strong> {{ conference.date | date:'dd/MM/yyyy' }}</p>
+            <p><strong>Lieu :</strong> {{ conference.place }}</p>
+            <p>
+              <strong>Places restantes :</strong>
+         <!---     {{ placesRestantes(conference) }}   --->
+            </p>
+
+            <!-- Directive ngClass -->
+            <button
+            [ngClass]="couleurBouton(conference)"
+            (click)="reserve(conference)"
+              type="button"
+              class="inscription-btn">
+              S'inscrire
+            </button>
+            <button [routerLink]="['/details', conference.id]" type="button" class="inscripton-btn">
+              Détails
+            </button>
+            <!-- Bouton pour activer le mode édition -->
+            <button (click)="activerEdition(conference, $event)" type="button" class="inscripton-btn">
+              ✏️ Modifier
+            </button>
+
+             <!---    ---->
+            <!---  [disabled]="placesRestantes(conference) === 0"---->
+          </article>
+        }
+
+        <!-- Mode Édition (Formulaire inline) -->
+        @if (estEnEdition(conference.id) && editForm) {
+          <article class="conference-item conference-edit" style="background-color: #f0f8ff; border: 2px solid #4CAF50;">
+            <form [formGroup]="editForm" (ngSubmit)="sauvegarderModification(conference)">
+              <h3>✏️ Modification de la conférence</h3>
+              
+              <div style="margin: 10px 0;">
+                <label><strong>Titre :</strong></label>
+                <input formControlName="title" style="width: 100%; padding: 5px; margin-top: 5px;">
+                @if(editForm.get('title')?.errors?.['required'] && editForm.get('title')?.touched) {
+                  <div style="color: red; font-size: 12px;">Champ obligatoire</div>
+                }
+                @if(editForm.get('title')?.errors?.['minlength'] && editForm.get('title')?.touched) {
+                  <div style="color: red; font-size: 12px;">Minimum 3 caractères</div>
+                }
+              </div>
+
+              <div style="margin: 10px 0;">
+                <label><strong>Description :</strong></label>
+                <textarea formControlName="description" rows="3" style="width: 100%; padding: 5px; margin-top: 5px;"></textarea>
+                @if(editForm.get('description')?.invalid && editForm.get('description')?.touched) {
+                  <div style="color: red; font-size: 12px;">Champ obligatoire</div>
+                }
+              </div>
+
+              <div style="margin: 10px 0;">
+                <label><strong>Date :</strong></label>
+                <input formControlName="date" type="date" style="width: 100%; padding: 5px; margin-top: 5px;">
+              </div>
+
+              <div style="margin: 10px 0;">
+                <label><strong>Lieu :</strong></label>
+                <input formControlName="place" style="width: 100%; padding: 5px; margin-top: 5px;">
+              </div>
+
+              <div style="margin: 10px 0;">
+                <label><strong>Nombre max de participants :</strong></label>
+                <input formControlName="maxParticipants" type="number" style="width: 100%; padding: 5px; margin-top: 5px;">
+              </div>
+
+              <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button type="submit" [disabled]="editForm.invalid" class="inscription-btn" style="background-color: #4CAF50;">
+                  ✅ Sauvegarder
+                </button>
+                <button type="button" (click)="annulerEdition()" class="inscription-btn" style="background-color: #f44336;">
+                  ❌ Annuler
+                </button>
+              </div>
+            </form>
+          </article>
+        }
+      
+      } 
+    }
+  </div>
+
+  <app-conference-details [conference]="conferenceSelectionnee"
+  ></app-conference-details>
+ </section>

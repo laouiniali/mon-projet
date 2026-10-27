@@ -1,0 +1,28 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    Title : <input formControlName="title" >
+    @if(myForm.get('title')?.errors?.['required'] && myForm.get('title')?.touched){
+    <div>
+        Champ obligatoire
+    </div>
+}
+ @if(myForm.get('title')?.errors?.['minlength'] && myForm.get('title')?.touched){
+    <div>
+        Minimum {{ myForm.get('title')?.errors?.['minlength']?.['requireLength'] }} caractères
+    </div>
+}
+    Description : <input formControlName="description">
+     @if(myForm.get('description')?.invalid && myForm.get('description')?.touched){
+    <div>
+        Champ obligatoire
+    </div>
+}
+    Lieu : <input formControlName="place">
+    Nombre maximale de participants : <input formControlName="nbmax">
+    date : <input formControlName="date" type="date">
+    
+    <!-- Bouton dynamique selon le mode -->
+    <button type="submit" [disabled]="isValid() == 'INVALID'">
+        {{ isUpdateMode ? 'Modifier' : 'Ajouter' }}
+    </button>
+</form>
+{{ isValid() }}
