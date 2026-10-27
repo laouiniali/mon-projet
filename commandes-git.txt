@@ -1,0 +1,32 @@
+═══════════════════════════════════════════════════════════
+  COMMANDES À COPIER-COLLER DANS POWERSHELL (UNE PAR UNE)
+═══════════════════════════════════════════════════════════
+
+📁 D'abord, allez dans le dossier:
+cd c:\mon-projet
+
+⚙️ Ensuite, copiez ces commandes UNE PAR UNE:
+
+git config user.name "Ali Laouini"
+
+git config user.email "ali.laouini@esprit.tn"
+
+git add .
+
+git commit -m "Initial commit: Angular Conference App with CRUD"
+
+git remote add origin https://github.com/laouiniali/mon-projet.git
+
+git branch -M main
+
+git push -u origin main
+
+═══════════════════════════════════════════════════════════
+
+⚠️  AVANT de faire "git push", créez le dépôt sur GitHub:
+    https://github.com/new
+    Nom: mon-projet
+    Public: OUI
+    Ne cochez rien d'autre!
+
+═══════════════════════════════════════════════════════════
